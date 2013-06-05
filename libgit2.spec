@@ -1,14 +1,13 @@
 #
 # Conditional build:
 %bcond_without	tests		# build without tests
-#
+
 Summary:	C git library
 Name:		libgit2
 Version:	0.18.0
-Release:	0.1
-License:	GPLv2 with linking exception
+Release:	1
+License:	GPL v2 with linking exception
 Group:		Libraries
-# SF URL: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}.tar.gz?/%{name}-version.tgz
 # Source0-md5:	ce6845df0dd084ef2633a69dba64929c
 URL:		http://libgit2.github.com/
@@ -36,7 +35,7 @@ Header files for %{name} library.
 %setup -q
 
 %build
-mkdir build
+install -d build
 cd build
 %cmake ..
 %{__make}
@@ -45,9 +44,7 @@ cd build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-cd build
-%{__make} install \
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
@@ -56,12 +53,11 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS CONTRIBUTING.md COPYING README.md
 %attr(755,root,root) %{_libdir}/libgit2.so.*.*.*
-%attr(755,root,root) %{_libdir}/libgit2.so.0
+%ghost %{_libdir}/libgit2.so.0
 
 %files devel
 %defattr(644,root,root,755)
