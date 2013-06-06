@@ -3,6 +3,7 @@
 %bcond_without	tests		# build without tests
 
 Summary:	C git library
+Summary(pl.UTF-8):	Biblioteka git dla C
 Name:		libgit2
 Version:	0.18.0
 Release:	1
@@ -23,13 +24,25 @@ provided as a re-entrant linkable library with a solid API, allowing
 you to write native speed custom Git applications in any language with
 bindings.
 
+%description -l pl.UTF-8
+libgit2 to przenośna implementacja w czystym C głównych metod Gita,
+udostępniona jako bezpieczna dla wątków biblioteka ze stałym API,
+pozwalająca na pisanie własnych aplikacji dla Gita o natywnej
+szybkości w dowolnym języku posiadającym odpowiednie wiązania.
+
 %package devel
-Summary:	Header files for %{name} library
+Summary:	Header files for libgit2 library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libgit2
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	openssl-devel
+Requires:	zlib-devel
 
 %description devel
-Header files for %{name} library.
+Header files for libgit2 library.
+
+%description devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki libgit2.
 
 %prep
 %setup -q
@@ -57,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS CONTRIBUTING.md COPYING README.md
 %attr(755,root,root) %{_libdir}/libgit2.so.*.*.*
-%ghost %{_libdir}/libgit2.so.0
+%attr(755,root,root) %ghost %{_libdir}/libgit2.so.0
 
 %files devel
 %defattr(644,root,root,755)
