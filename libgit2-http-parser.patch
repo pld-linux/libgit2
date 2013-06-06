@@ -1,0 +1,91 @@
+From 893373eaacf15f24c6d98e75d44833730c923f95 Mon Sep 17 00:00:00 2001
+From: Veeti Paananen <veeti.paananen@rojekti.fi>
+Date: Thu, 2 May 2013 14:07:22 +0300
+Subject: [PATCH] Build with the system's http-parser installation if available
+
+---
+ CMakeLists.txt                      | 15 +++++++++++---
+ cmake/Modules/FindHTTP_Parser.cmake | 39 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+), 3 deletions(-)
+ create mode 100644 cmake/Modules/FindHTTP_Parser.cmake
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6bd25aa..10caa16 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -14,6 +14,8 @@
+ PROJECT(libgit2 C)
+ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+ 
++SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
++
+ # Build options
+ #
+ OPTION( SONAME				"Set the (SO)VERSION of the target"		ON  )
+@@ -97,8 +99,16 @@ ELSE ()
+ 	IF (NOT AMIGA)
+ 		FIND_PACKAGE(OpenSSL)
+ 	ENDIF ()
+-	FILE(GLOB SRC_HTTP deps/http-parser/*.c)
+-	INCLUDE_DIRECTORIES(deps/http-parser)
++
++	FIND_PACKAGE(HTTP_Parser QUIET)
++	IF (HTTP_PARSER_FOUND AND HTTP_PARSER_VERSION_MAJOR EQUAL 2)
++		INCLUDE_DIRECTORIES(${HTTP_PARSER_INCLUDE_DIRS})
++		LINK_LIBRARIES(${HTTP_PARSER_LIBRARIES})
++	ELSE()
++		MESSAGE("http-parser was not found or is too old; using bundled 3rd-party sources.")
++		INCLUDE_DIRECTORIES(deps/http-parser)
++		FILE(GLOB SRC_HTTP deps/http-parser/*.c)
++	ENDIF()
+ ENDIF()
+ 
+ # Specify sha1 implementation
+diff --git a/cmake/Modules/FindHTTP_Parser.cmake b/cmake/Modules/FindHTTP_Parser.cmake
+new file mode 100644
+index 0000000..d92bf75
+--- /dev/null
++++ b/cmake/Modules/FindHTTP_Parser.cmake
+@@ -0,0 +1,39 @@
++# - Try to find http-parser
++#
++# Defines the following variables:
++#
++# HTTP_PARSER_FOUND - system has http-parser
++# HTTP_PARSER_INCLUDE_DIR - the http-parser include directory
++# HTTP_PARSER_LIBRARIES - Link these to use http-parser
++# HTTP_PARSER_VERSION_MAJOR - major version
++# HTTP_PARSER_VERSION_MINOR - minor version
++# HTTP_PARSER_VERSION_STRING - the version of http-parser found
++
++# Find the header and library
++FIND_PATH(HTTP_PARSER_INCLUDE_DIR NAMES http_parser.h)
++FIND_LIBRARY(HTTP_PARSER_LIBRARY NAMES http_parser libhttp_parser)
++
++# Found the header, read version
++if (HTTP_PARSER_INCLUDE_DIR AND EXISTS "${HTTP_PARSER_INCLUDE_DIR}/http_parser.h")
++	FILE(READ "${HTTP_PARSER_INCLUDE_DIR}/http_parser.h" HTTP_PARSER_H)
++	IF (HTTP_PARSER_H)
++		STRING(REGEX REPLACE ".*#define[\t ]+HTTP_PARSER_VERSION_MAJOR[\t ]+([0-9]+).*" "\\1" HTTP_PARSER_VERSION_MAJOR "${HTTP_PARSER_H}")
++		STRING(REGEX REPLACE ".*#define[\t ]+HTTP_PARSER_VERSION_MINOR[\t ]+([0-9]+).*" "\\1" HTTP_PARSER_VERSION_MINOR "${HTTP_PARSER_H}")
++		SET(HTTP_PARSER_VERSION_STRING "${HTTP_PARSER_VERSION_MAJOR}.${HTTP_PARSER_VERSION_MINOR}")
++	ENDIF()
++	UNSET(HTTP_PARSER_H)
++ENDIF()
++
++# Handle the QUIETLY and REQUIRED arguments and set HTTP_PARSER_FOUND
++# to TRUE if all listed variables are TRUE
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(HTTP_Parser REQUIRED_VARS HTTP_PARSER_INCLUDE_DIR HTTP_PARSER_LIBRARY)
++
++# Hide advanced variables
++MARK_AS_ADVANCED(HTTP_PARSER_INCLUDE_DIR HTTP_PARSER_LIBRARY)
++
++# Set standard variables
++IF (HTTP_PARSER_FOUND)
++	SET(HTTP_PARSER_LIBRARIES ${HTTP_PARSER_LIBRARY})
++	set(HTTP_PARSER_INCLUDE_DIRS ${HTTP_PARSER_INCLUDE_DIR})
++ENDIF()
+-- 
+1.8.3
+

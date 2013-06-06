@@ -11,8 +11,10 @@ License:	GPL v2 with linking exception
 Group:		Libraries
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}.tar.gz?/%{name}-version.tgz
 # Source0-md5:	ce6845df0dd084ef2633a69dba64929c
+Patch0:	        %{name}-http-parser.patch
 URL:		http://libgit2.github.com/
 BuildRequires:	cmake >= 2.6
+BuildRequires:	http-parser-devel
 BuildRequires:	openssl-devel
 %{?with_tests:BuildRequires:	python}
 BuildRequires:	zlib-devel
@@ -46,6 +48,7 @@ Pliki nagłówkowe biblioteki libgit2.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 install -d build
