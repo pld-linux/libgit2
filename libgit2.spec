@@ -56,7 +56,7 @@ cd build
 %cmake ..
 %{__make}
 
-%{?with_tests:%{__make} test}
+%{?with_tests:%{__make} test ARGS="-V"}
 
 %install
 rm -rf $RPM_BUILD_ROOT
