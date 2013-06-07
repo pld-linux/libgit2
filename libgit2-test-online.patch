@@ -1,0 +1,18 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 10caa16..714d86c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -359,7 +359,12 @@ IF (BUILD_CLAR)
+ 	ENDIF ()
+ 
+ 	ENABLE_TESTING()
+-	ADD_TEST(libgit2_clar libgit2_clar -ionline)
++        IF (ONLINE_TESTS)
++	    ADD_TEST(libgit2_clar libgit2_clar -ionline)
++        ELSE ()
++	    ADD_TEST(libgit2_clar libgit2_clar -xonline)
++        ENDIF ()
++
+ ENDIF ()
+ 
+ IF (TAGS)

@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	tests		# build without tests
+%bcond_with	tests_online	# build with tests reqiuring online access
 
 Summary:	C git library
 Summary(pl.UTF-8):	Biblioteka git dla C
@@ -12,6 +13,7 @@ Group:		Libraries
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}.tar.gz?/%{name}-version.tgz
 # Source0-md5:	ce6845df0dd084ef2633a69dba64929c
 Patch0:	        %{name}-http-parser.patch
+Patch1:	        %{name}-test-online.patch
 URL:		http://libgit2.github.com/
 BuildRequires:	cmake >= 2.6
 BuildRequires:	http-parser-devel
@@ -49,11 +51,12 @@ Pliki nagłówkowe biblioteki libgit2.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d build
 cd build
-%cmake ..
+%cmake %{?with_tests_online:-DONLINE_TESTS=1} ..
 %{__make}
 
 %{?with_tests:%{__make} test ARGS="-V"}
