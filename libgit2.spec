@@ -6,17 +6,17 @@
 Summary:	C git library
 Summary(pl.UTF-8):	Biblioteka git dla C
 Name:		libgit2
-Version:	0.18.0
+Version:	0.19.0
 Release:	1
 License:	GPL v2 with linking exception
 Group:		Libraries
-Source0:	https://github.com/libgit2/libgit2/archive/v%{version}.tar.gz?/%{name}-version.tgz
-# Source0-md5:	ce6845df0dd084ef2633a69dba64929c
-Patch0:	        %{name}-http-parser.patch
-Patch1:	        %{name}-test-online.patch
+Source0:	https://github.com/libgit2/libgit2/archive/v%{version}.tar.gz?/%{name}-%{version}.tar.gz
+# Source0-md5:	d682d9424d95f697bf3f89b358fe8e1a
+Patch0:	        %{name}-test-online.patch
 URL:		http://libgit2.github.com/
 BuildRequires:	cmake >= 2.6
 BuildRequires:	http-parser-devel
+BuildRequires:	libssh2-devel
 BuildRequires:	openssl-devel
 %{?with_tests:BuildRequires:	python}
 BuildRequires:	zlib-devel
@@ -51,12 +51,12 @@ Pliki nagłówkowe biblioteki libgit2.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 install -d build
 cd build
-%cmake %{?with_tests_online:-DONLINE_TESTS=1} ..
+%cmake .. \
+	%{?with_tests_online:-DONLINE_TESTS=1}
 %{__make}
 
 %{?with_tests:%{__make} test ARGS="-V"}
