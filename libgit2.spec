@@ -13,6 +13,7 @@ Group:		Libraries
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}.tar.gz?/%{name}-%{version}.tar.gz
 # Source0-md5:	e35f613a37e11354f34249f2faa68237
 Patch0:	        %{name}-test-online.patch
+Patch1:	        %{name}-no-libgit2-test.patch
 URL:		http://libgit2.github.com/
 BuildRequires:	cmake >= 2.6
 BuildRequires:	http-parser-devel
@@ -51,6 +52,7 @@ Pliki nagłówkowe biblioteki libgit2.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d build
