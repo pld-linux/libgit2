@@ -7,7 +7,7 @@ Summary:	C git library
 Summary(pl.UTF-8):	Biblioteka git dla C
 Name:		libgit2
 Version:	0.20.0
-Release:	1
+Release:	2
 License:	GPL v2 with linking exception
 Group:		Libraries
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}.tar.gz?/%{name}-%{version}.tar.gz
@@ -40,6 +40,8 @@ Summary:	Header files for libgit2 library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libgit2
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	http-parser-devel
+Requires:	libssh2-devel
 Requires:	openssl-devel
 Requires:	zlib-devel
 
@@ -57,7 +59,13 @@ Pliki nagłówkowe biblioteki libgit2.
 %build
 install -d build
 cd build
+# CMakeLists.txt supports only relative LIB_INSTALL_DIR and INCLUDE_INSTALL_DIR
+# (otherwise .pc file is generated incorrectly).
+# Type (:PATH or :STRING) must be specified explicitly to avoid expansion
+# relative to cwd.
 %cmake .. \
+	-DINCLUDE_INSTALL_DIR:PATH=include \
+	-DLIB_INSTALL_DIR:PATH=%{_lib} \
 	%{?with_tests_online:-DONLINE_TESTS=1}
 %{__make}
 
