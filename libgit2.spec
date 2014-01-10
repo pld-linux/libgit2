@@ -7,7 +7,7 @@ Summary:	C git library
 Summary(pl.UTF-8):	Biblioteka git dla C
 Name:		libgit2
 Version:	0.20.0
-Release:	2
+Release:	3
 License:	GPL v2 with linking exception
 Group:		Libraries
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}.tar.gz?/%{name}-%{version}.tar.gz
@@ -66,7 +66,8 @@ cd build
 %cmake .. \
 	-DINCLUDE_INSTALL_DIR:PATH=include \
 	-DLIB_INSTALL_DIR:PATH=%{_lib} \
-	%{?with_tests_online:-DONLINE_TESTS=1}
+	%{?with_tests_online:-DONLINE_TESTS:BOOL=ON} \
+	-DTHREADSAFE:BOOL=ON
 %{__make}
 
 %{?with_tests:%{__make} test ARGS="-V"}
