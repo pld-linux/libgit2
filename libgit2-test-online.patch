@@ -10,7 +10,7 @@ index 10caa16..714d86c 100644
 +        IF (ONLINE_TESTS)
 +	    ADD_TEST(libgit2_clar libgit2_clar -ionline)
 +        ELSE ()
-+	    ADD_TEST(libgit2_clar libgit2_clar -xonline)
++	    ADD_TEST(libgit2_clar libgit2_clar -xonline -xnetwork::remote::remotes)
 +        ENDIF ()
 +
  ENDIF ()
