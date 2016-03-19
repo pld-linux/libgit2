@@ -4,15 +4,15 @@
 %bcond_without	tests		# build without tests
 %bcond_with	tests_online	# build with tests reqiuring online access
 
-Summary:	C git library
-Summary(pl.UTF-8):	Biblioteka git dla C
+Summary:	C Git library
+Summary(pl.UTF-8):	Biblioteka Git dla C
 Name:		libgit2
-Version:	0.23.4
+Version:	0.24.0
 Release:	1
 License:	GPL v2 with linking exception
 Group:		Libraries
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	b7db3ab71dfa19fe1dc7fef76d6af216
+# Source0-md5:	8cabf04502d7203793b32f47ca410ae3
 Patch0:	        %{name}-test-online.patch
 Patch1:	        %{name}-no-libgit2-test.patch
 URL:		http://libgit2.github.com/
@@ -92,7 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS CONTRIBUTING.md COPYING README.md
 %attr(755,root,root) %{_libdir}/libgit2.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libgit2.so.23
+%attr(755,root,root) %ghost %{_libdir}/libgit2.so.24
 
 %files devel
 %defattr(644,root,root,755)
