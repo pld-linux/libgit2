@@ -2,6 +2,8 @@
 # Conditional build:
 %bcond_without	kerberos5	# GSSAPI for SPNEGO auth
 %bcond_without	tests		# build without tests
+%bcond_without	libssh		# Link with libssh2 to enable SSH support
+%bcond_without	curl		# Use cURL for HTTP
 %bcond_with	tests_online	# build with tests reqiuring online access
 
 Summary:	C Git library
@@ -17,15 +19,18 @@ Patch0:	        %{name}-test-online.patch
 Patch1:	        %{name}-no-libgit2-test.patch
 URL:		http://libgit2.github.com/
 BuildRequires:	cmake >= 2.8
-BuildRequires:	curl-devel
+%{?with_curl:BuildRequires:	curl-devel}
 %{?with_kerberos5:BuildRequires:	heimdal-devel}
 BuildRequires:	http-parser-devel >= 2
-BuildRequires:	libssh2-devel
+%{?with_libssh:BuildRequires:	libssh2-devel}
 BuildRequires:	openssl-devel
 BuildRequires:	pkgconfig
 %{?with_tests:BuildRequires:	python}
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# Usage: cmake_with BCOND_NAME [OPTION_NAME]
+%define		cmake_with() %{expand:%%{?with_%{1}:-D%{?2}%{!?2:%{1}}=BOOL:ON}%%{!?with_%{1}:-D%{?2}%{!?2:%{1}}=BOOL:OFF}}
 
 %description
 libgit2 is a portable, pure C implementation of the Git core methods
@@ -70,9 +75,11 @@ cd build
 %cmake .. \
 	-DINCLUDE_INSTALL_DIR:PATH=include \
 	-DLIB_INSTALL_DIR:PATH=%{_lib} \
-	%{?with_tests_online:-DONLINE_TESTS:BOOL=ON} \
-	-DTHREADSAFE:BOOL=ON \
-	%{?with_kerberos5:-DUSE_GSSAPI:BOOL=ON}
+	%{cmake_with curl CURL} \
+	%{cmake_with kerberos5 USE_GSSAPI} \
+	%{cmake_with libssh USE_SSH} \
+	%{cmake_with tests_online ONLINE_TESTS} \
+	-DTHREADSAFE:BOOL=ON
 %{__make}
 
 %{?with_tests:%{__make} test ARGS="-V"}
