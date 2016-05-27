@@ -75,6 +75,7 @@ cd build
 %cmake .. \
 	-DINCLUDE_INSTALL_DIR:PATH=include \
 	-DLIB_INSTALL_DIR:PATH=%{_lib} \
+	%{cmake_with tests BUILD_CLAR} \
 	%{cmake_with curl CURL} \
 	%{cmake_with kerberos5 USE_GSSAPI} \
 	%{cmake_with libssh USE_SSH} \
