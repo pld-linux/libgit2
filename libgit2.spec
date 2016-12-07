@@ -9,13 +9,13 @@
 Summary:	C Git library
 Summary(pl.UTF-8):	Biblioteka Git dla C
 Name:		libgit2
-Version:	0.24.1
+Version:	0.24.3
 Release:	1
 License:	GPL v2 with linking exception
 Group:		Libraries
 #Source0Download: https://github.com/libgit2/libgit2/releases
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	3674ca2d40388b1175e25b6f5a3a82ad
+# Source0-md5:	df626711b16bd5e7021123cbf1655399
 Patch0:	        %{name}-test-online.patch
 Patch1:	        %{name}-no-libgit2-test.patch
 URL:		http://libgit2.github.com/
