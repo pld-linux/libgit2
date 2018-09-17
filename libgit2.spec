@@ -4,7 +4,6 @@
 %bcond_without	kerberos5	# GSSAPI for SPNEGO auth
 %bcond_without	libssh		# SSH support via libssh2
 %bcond_without	tests		# build without tests
-%bcond_with	tests_online	# build with tests reqiuring online access
 
 Summary:	C Git library
 Summary(pl.UTF-8):	Biblioteka Git dla C
@@ -81,7 +80,6 @@ cd build
 	%{cmake_on_off curl CURL} \
 	%{cmake_on_off kerberos5 USE_GSSAPI} \
 	%{cmake_on_off libssh USE_SSH} \
-	%{cmake_on_off tests_online ONLINE_TESTS} \
 	-DTHREADSAFE:BOOL=ON
 %{__make}
 
