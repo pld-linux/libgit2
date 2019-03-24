@@ -25,11 +25,9 @@ BuildRequires:	http-parser-devel >= 2
 BuildRequires:	openssl-devel
 BuildRequires:	pkgconfig
 %{?with_tests:BuildRequires:	python}
+BuildRequires:	rpmbuild(macros) >= 1.742
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-# Usage: cmake_with BCOND_NAME [OPTION_NAME]
-%define		cmake_on_off() -D%{?2}%{!?2:%{1}}:BOOL=%{expand:%%{?with_%{1}:ON}%%{!?with_%{1}:OFF}}
 
 %description
 libgit2 is a portable, pure C implementation of the Git core methods
