@@ -8,16 +8,16 @@
 Summary:	C Git library
 Summary(pl.UTF-8):	Biblioteka Git dla C
 Name:		libgit2
-Version:	0.27.4
-Release:	4
+Version:	0.28.2
+Release:	1
 License:	GPL v2 with linking exception
 Group:		Libraries
 #Source0Download: https://github.com/libgit2/libgit2/releases
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	d38b06b3de52ff5ef0c29e7b5dbe415b
+# Source0-md5:	07768918ff33688ae14a18b412f3bc1f
 Patch0:		%{name}-no-libgit2-test.patch
 URL:		http://libgit2.github.com/
-BuildRequires:	cmake >= 2.8
+BuildRequires:	cmake >= 3.0
 %{?with_curl:BuildRequires:	curl-devel}
 %{?with_kerberos5:BuildRequires:	heimdal-devel}
 BuildRequires:	http-parser-devel >= 2
@@ -96,9 +96,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS CONTRIBUTING.md COPYING README.md
+%doc AUTHORS docs/contributing.md COPYING README.md
 %attr(755,root,root) %{_libdir}/libgit2.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libgit2.so.27
+%attr(755,root,root) %ghost %{_libdir}/libgit2.so.28
 
 %files devel
 %defattr(644,root,root,755)
