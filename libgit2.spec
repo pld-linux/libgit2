@@ -9,7 +9,7 @@ Summary:	C Git library
 Summary(pl.UTF-8):	Biblioteka Git dla C
 Name:		libgit2
 Version:	0.28.2
-Release:	1
+Release:	2
 License:	GPL v2 with linking exception
 Group:		Libraries
 #Source0Download: https://github.com/libgit2/libgit2/releases
@@ -62,7 +62,7 @@ Pliki nagłówkowe biblioteki libgit2.
 %patch0 -p1
 
 # Don't test network
-sed -i 's/ionline/xonline/' tests/CMakeLists.txt
+sed -i '/ADD_TEST(online/s/^/#/' tests/CMakeLists.txt
 
 %build
 install -d build
