@@ -3,7 +3,7 @@
 %bcond_without	curl		# Use cURL for HTTP
 %bcond_without	kerberos5	# GSSAPI for SPNEGO auth
 %bcond_without	libssh		# SSH support via libssh2
-%bcond_without	tests		# build without tests
+%bcond_with	tests		# build without tests
 
 Summary:	C Git library
 Summary(pl.UTF-8):	Biblioteka Git dla C
