@@ -1,6 +1,5 @@
 #
 # Conditional build:
-%bcond_without	curl		# Use cURL for HTTP
 %bcond_without	kerberos5	# GSSAPI for SPNEGO auth
 %bcond_without	libssh		# SSH support via libssh2
 %bcond_with	tests		# build without tests
@@ -17,12 +16,12 @@ Source0:	https://github.com/libgit2/libgit2/archive/v%{version}/%{name}-%{versio
 # Source0-md5:	9f4ca15249e703ab88cbc929187750cd
 Patch0:		%{name}-no-libgit2-test.patch
 URL:		http://libgit2.github.com/
-BuildRequires:	cmake >= 3.0
-%{?with_curl:BuildRequires:	curl-devel}
+BuildRequires:	cmake >= 3.5.1
 %{?with_kerberos5:BuildRequires:	heimdal-devel}
 BuildRequires:	http-parser-devel >= 2
 %{?with_libssh:BuildRequires:	libssh2-devel}
 BuildRequires:	openssl-devel
+BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
 %{?with_tests:BuildRequires:	python}
 BuildRequires:	rpmbuild(macros) >= 1.742
@@ -75,9 +74,9 @@ cd build
 	-DINCLUDE_INSTALL_DIR:PATH=include \
 	-DLIB_INSTALL_DIR:PATH=%{_lib} \
 	%{cmake_on_off tests BUILD_CLAR} \
-	%{cmake_on_off curl CURL} \
 	%{cmake_on_off kerberos5 USE_GSSAPI} \
 	%{cmake_on_off libssh USE_SSH} \
+	-DUSE_HTTP_PARSER=system \
 	-DTHREADSAFE:BOOL=ON
 %{__make}
 
