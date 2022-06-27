@@ -15,6 +15,7 @@ Group:		Libraries
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	61b3421e91c7e0e2938dfb36c26f19ba
 Patch0:		%{name}-no-libgit2-test.patch
+Patch1:		pcre2-detect.ptch
 URL:		http://libgit2.github.com/
 BuildRequires:	cmake >= 3.5.1
 %{?with_kerberos5:BuildRequires:	heimdal-devel}
@@ -59,6 +60,7 @@ Pliki nagłówkowe biblioteki libgit2.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 # Don't test network
 sed -i '/ADD_TEST(online/s/^/#/' tests/CMakeLists.txt

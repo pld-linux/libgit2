@@ -1,0 +1,27 @@
+From 39627c51f64dca83c9fc3b903079456f3c39a2d3 Mon Sep 17 00:00:00 2001
+From: Jan Palus <jpalus@fastmail.com>
+Date: Mon, 27 Jun 2022 10:04:23 +0200
+Subject: [PATCH] cmake: change header used for pcre2 detection
+
+with pcre2 regex libgit2 uses pcre2.h header instead of pcre2posix.h
+(since f585b12), so reflect it in library detection logic
+---
+ cmake/FindPCRE2.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cmake/FindPCRE2.cmake b/cmake/FindPCRE2.cmake
+index d4b8e6761..41c165b65 100644
+--- a/cmake/FindPCRE2.cmake
++++ b/cmake/FindPCRE2.cmake
+@@ -16,7 +16,7 @@
+ # PCRE2_FOUND	- True if pcre found.
+ 
+ # Look for the header file.
+-find_path(PCRE2_INCLUDE_DIR NAMES pcre2posix.h)
++find_path(PCRE2_INCLUDE_DIR NAMES pcre2.h)
+ 
+ # Look for the library.
+ find_library(PCRE2_LIBRARY NAMES pcre2-8)
+-- 
+2.36.1
+
