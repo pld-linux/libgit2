@@ -45,7 +45,7 @@ szybkości w dowolnym języku posiadającym odpowiednie wiązania.
 Summary:	Header files for libgit2 library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libgit2
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	http-parser-devel
 Requires:	libssh2-devel
 Requires:	openssl-devel
