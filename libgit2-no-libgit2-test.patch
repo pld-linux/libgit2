@@ -1,5 +1,5 @@
---- libgit2-0.20.0/tests/blame/simple.c.orig	2013-11-20 12:53:33.000000000 +0100
-+++ libgit2-0.20.0/tests/blame/simple.c	2013-11-29 16:59:19.887747596 +0100
+--- libgit2-0.20.0/tests/libgit2/blame/simple.c.orig	2013-11-20 12:53:33.000000000 +0100
++++ libgit2-0.20.0/tests/libgit2/blame/simple.c	2013-11-29 16:59:19.887747596 +0100
 @@ -130,7 +130,7 @@
   * bf477ed4 include/git2.h 45 (Michael Schubert    2012-02-15 00:33:38 +0100 59
   * d12299fe src/git.h      49 (Vicent Martí        2010-12-03 22:22:10 +0200 60

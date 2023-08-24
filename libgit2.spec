@@ -7,15 +7,14 @@
 Summary:	C Git library
 Summary(pl.UTF-8):	Biblioteka Git dla C
 Name:		libgit2
-Version:	1.4.6
+Version:	1.6.4
 Release:	1
 License:	GPL v2 with linking exception
 Group:		Libraries
 #Source0Download: https://github.com/libgit2/libgit2/releases
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	db5e2722b90c88ed6aec1aa616201a36
+# Source0-md5:	a77d6555a0ebdd6155ae8bae05ed1bd8
 Patch0:		%{name}-no-libgit2-test.patch
-Patch1:		pcre2-detect.ptch
 URL:		http://libgit2.github.com/
 BuildRequires:	cmake >= 3.5.1
 %{?with_kerberos5:BuildRequires:	heimdal-devel}
@@ -57,10 +56,21 @@ Header files for libgit2 library.
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki libgit2.
 
+%package tools
+Summary:	Tools for libgit2 library
+Summary(pl.UTF-8):	Narzędzia dla biblioteki libgit2
+Group:		Application
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+
+%description tools
+Tools for libgit2 library.
+
+%description tools -l pl.UTF-8
+Narzędzia dla biblioteki libgit2.
+
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 # Don't test network
 sed -i '/ADD_TEST(online/s/^/#/' tests/CMakeLists.txt
@@ -98,7 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS docs/contributing.md COPYING README.md
 %attr(755,root,root) %{_libdir}/libgit2.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libgit2.so.1.4
+%attr(755,root,root) %ghost %{_libdir}/libgit2.so.1.6
 
 %files devel
 %defattr(644,root,root,755)
@@ -106,3 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/git2.h
 %{_includedir}/git2
 %{_pkgconfigdir}/libgit2.pc
+
+%files tools
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/git2
