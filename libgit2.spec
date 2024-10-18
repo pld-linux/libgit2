@@ -7,18 +7,18 @@
 Summary:	C Git library
 Summary(pl.UTF-8):	Biblioteka Git dla C
 Name:		libgit2
-Version:	1.7.2
+Version:	1.8.1
 Release:	1
 License:	GPL v2 with linking exception
 Group:		Libraries
 #Source0Download: https://github.com/libgit2/libgit2/releases
 Source0:	https://github.com/libgit2/libgit2/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	fa4f30e57c67fabee18c5961af72fb3f
+# Source0-md5:	4c384e9f580b8c4de9445c8fa2474c87
 Patch0:		%{name}-no-libgit2-test.patch
 URL:		http://libgit2.github.com/
 BuildRequires:	cmake >= 3.5.1
 %{?with_kerberos5:BuildRequires:	heimdal-devel}
-BuildRequires:	http-parser-devel >= 2
+BuildRequires:	llhttp-devel
 %{?with_libssh:BuildRequires:	libssh2-devel}
 BuildRequires:	openssl-devel
 BuildRequires:	pcre2-8-devel
@@ -45,7 +45,7 @@ Summary:	Header files for libgit2 library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libgit2
 Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	http-parser-devel
+Requires:	llhttp-devel
 Requires:	libssh2-devel
 Requires:	openssl-devel
 Requires:	zlib-devel
@@ -86,7 +86,7 @@ cd build
 	%{cmake_on_off tests BUILD_TESTS} \
 	-DREGEX_BACKEND=pcre2 \
 	%{cmake_on_off kerberos5 USE_GSSAPI} \
-	-DUSE_HTTP_PARSER=system \
+	-DUSE_HTTP_PARSER=llhttp \
 	%{cmake_on_off libssh USE_SSH}
 %{__make}
 
@@ -108,7 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS docs/contributing.md COPYING README.md
 %attr(755,root,root) %{_libdir}/libgit2.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libgit2.so.1.7
+%attr(755,root,root) %ghost %{_libdir}/libgit2.so.1.8
 
 %files devel
 %defattr(644,root,root,755)
