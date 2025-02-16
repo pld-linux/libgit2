@@ -70,7 +70,7 @@ Narzędzia dla biblioteki libgit2.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 # Don't test network
 sed -i '/ADD_TEST(online/s/^/#/' tests/CMakeLists.txt
